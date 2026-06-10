@@ -1,4 +1,4 @@
-from database.db import create_ticket, get_ticket
+from database import create_ticket, get_ticket
 
 def handle_complaint(message):
     ticket_id = create_ticket(message)
