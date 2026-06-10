@@ -7,7 +7,7 @@ from agents.sentiment_agent import analyze_sentiment
 from agents.rag_agent import answer_query
 from agents.ticket_agent import handle_complaint
 
-from database import create_ticket, get_ticket
+from database import init_db
 
 init_db()
 
