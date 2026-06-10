@@ -1,42 +1,8 @@
-# streamlit main app; RUN PHASE (main application)
-
-import streamlit as st
-
-from agents.classifier_agent import classify_message
-from agents.sentiment_agent import analyze_sentiment
-from agents.rag_agent import answer_query
-from agents.ticket_agent import handle_complaint
-
-from database import init_db
-
-init_db()
-
-st.title("Banking Support AI (Multi-Agent + RAG)")
-
-user_input = st.text_area("Enter your query or comment here:")
+from agents.orchestrator import process_message
 
 if st.button("Submit"):
+    result = process_message(user_input)
 
-    if not user_input:
-        st.warning("Please enter a comment or query before submitting.")
-        st.stop()
-
-    category = classify_message(user_input)
-    sentiment = analyze_sentiment(user_input)
-
-    st.write("**Category:**", category)
-    st.write("**Sentiment:**", sentiment)
-
-    # QUERY → RAG
-    if "query" in category:
-        response = answer_query(user_input)
-        st.success(response)
-
-    # NEGATIVE → TICKET
-    elif "negative" in category:
-        response = handle_complaint(user_input)
-        st.error(response)
-
-    # POSITIVE → THANK YOU
-    else:
-        st.success("Thank you for your feedback")
+    st.write("Type:", result["type"])
+    st.write("Sentiment:", result["sentiment"])
+    st.success(result["response"])
