@@ -1,7 +1,19 @@
 import streamlit as st
-
 from agents.orchestrator import process_message
 
+# -----------------------------
+# UI HEADER
+# -----------------------------
+st.title("Banking Support AI Assistant")
+
+# -----------------------------
+# INPUT BOX
+# -----------------------------
+user_input = st.text_area("Enter your query or comment here:")
+
+# -----------------------------
+# SUBMIT BUTTON
+# -----------------------------
 if st.button("Submit"):
 
     if not user_input:
@@ -10,6 +22,7 @@ if st.button("Submit"):
 
     result = process_message(user_input)
 
+    st.subheader("Results")
     st.write("Type:", result["type"])
     st.write("Sentiment:", result["sentiment"])
     st.success(result["response"])
