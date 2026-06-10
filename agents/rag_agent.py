@@ -12,7 +12,7 @@ llm = ChatOpenAI(model="gpt-4o-mini")
 embeddings = OpenAIEmbeddings()
 
 # -----------------------------
-# Load existing vector DB
+# Load vector DB
 # -----------------------------
 DB_PATH = "chroma_db"
 
@@ -31,20 +31,29 @@ def answer_query(question: str):
 
     docs = retriever.invoke(question)
 
+    # -------------------------
+    # SAFETY: handle empty DB
+    # -------------------------
+    if not docs:
+        return llm.invoke(
+            f"You are a banking assistant. Answer this question generally:\n\n{question}"
+        ).content
+
     context = "\n\n".join([d.page_content for d in docs])
 
     prompt = f"""
 You are a helpful banking assistant.
 
-Answer ONLY using the context below.
-
-If the answer is not in the context, say you don't know.
+Use ONLY the context below to answer the question.
+If the answer is not clearly in the context, say you don't know.
 
 Context:
 {context}
 
 Question:
 {question}
+
+Answer:
 """
 
     return llm.invoke(prompt).content
