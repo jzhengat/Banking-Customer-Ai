@@ -5,7 +5,6 @@ def handle_complaint(message):
     ticket_id = create_ticket(message)
 
     return f"""
-    We are sorry for the inconvenience.
 
     Your ticket has been created.
 
@@ -17,7 +16,7 @@ def check_ticket(ticket_id):
     ticket = get_ticket(ticket_id)
 
     if not ticket:
-        return "Ticket not found"
+        return "ERROR: ticket not found"
 
     return f"""
     Ticket ID: {ticket[0]}

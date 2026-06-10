@@ -7,18 +7,18 @@ from agents.sentiment_agent import analyze_sentiment
 from agents.rag_agent import answer_query
 from agents.ticket_agent import handle_complaint
 
-from database.db import init_db
+from database_sub import create_ticket, get_ticket
 
 init_db()
 
-st.title("🏦 Banking Support AI (Multi-Agent + RAG)")
+st.title("Banking Support AI (Multi-Agent + RAG)")
 
-user_input = st.text_area("Enter your message")
+user_input = st.text_area("Enter your query or comment here:")
 
 if st.button("Submit"):
 
     if not user_input:
-        st.warning("Please enter a message")
+        st.warning("Please enter a comment or query before submitting.")
         st.stop()
 
     category = classify_message(user_input)
