@@ -1,0 +1,14 @@
+Savings Account:
+You can open a savings account with valid ID proof and address verification.
+
+Loan Application:
+Loan processing takes 3–5 business days for approval.
+
+Credit Cards:
+Credit cards are issued based on income and credit score.
+
+ATM Issues:
+If your ATM card is blocked, contact customer support or use the app to unblock it.
+
+Ticket Support:
+Customers can track issues using a ticket ID in the support system.
