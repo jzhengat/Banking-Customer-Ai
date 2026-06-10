@@ -29,7 +29,7 @@ retriever = db.as_retriever(search_kwargs={"k": 3})
 # -----------------------------
 def answer_query(question: str):
 
-    docs = retriever.get_relevant_documents(question)
+    docs = retriever.invoke(question)
 
     context = "\n\n".join([d.page_content for d in docs])
 
