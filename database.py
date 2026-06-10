@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_PATH = "database/tickets.db"
+DB_PATH = "tickets/tickets.db"
 
 
 def init_db():

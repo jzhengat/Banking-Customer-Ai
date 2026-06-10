@@ -1,34 +1,50 @@
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 
+# -----------------------------
+# LLM
+# -----------------------------
 llm = ChatOpenAI(model="gpt-4o-mini")
 
+# -----------------------------
+# Embeddings (must match ingest.py)
+# -----------------------------
 embeddings = OpenAIEmbeddings()
 
+# -----------------------------
+# Load existing vector DB
+# -----------------------------
+DB_PATH = "chroma_db"
+
 db = Chroma(
-    persist_directory="chroma_db",
+    persist_directory=DB_PATH,
     embedding_function=embeddings
 )
 
 retriever = db.as_retriever(search_kwargs={"k": 3})
 
 
-def answer_query(question):
+# -----------------------------
+# RAG QUERY FUNCTION
+# -----------------------------
+def answer_query(question: str):
 
     docs = retriever.get_relevant_documents(question)
 
-    context = "\n".join([d.page_content for d in docs])
+    context = "\n\n".join([d.page_content for d in docs])
 
     prompt = f"""
-    You are a banking assistant.
+You are a helpful banking assistant.
 
-    Use the context to answer.
+Answer ONLY using the context below.
 
-    Context:
-    {context}
+If the answer is not in the context, say you don't know.
 
-    Question:
-    {question}
-    """
+Context:
+{context}
+
+Question:
+{question}
+"""
 
     return llm.invoke(prompt).content
